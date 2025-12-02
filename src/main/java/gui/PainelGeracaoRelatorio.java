@@ -111,6 +111,7 @@ public class PainelGeracaoRelatorio extends VBox {
             }
 
             try {
+                // Funcionalidade 6: Geração de Relatório
                 String resultado = relatorioDAO.gerarRelatorioEncontro(encontroSelecionado.getIdEncontro(), caminho);
                 new Alert(Alert.AlertType.INFORMATION, resultado).showAndWait();
             } catch (IOException | RuntimeException ex) {

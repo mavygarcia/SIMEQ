@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List; // <--- IMPORTAÇÃO FALTANDO ADICIONADA AQUI
+import java.util.List;
 
 public class PainelGerenciamentoEncontros extends VBox {
 
@@ -41,21 +41,20 @@ public class PainelGerenciamentoEncontros extends VBox {
         VBox.setVgrow(tabelaEncontros, Priority.ALWAYS);
 
         // 1. Configurar Colunas da Tabela
-        TableColumn<Encontro, String> dataCol = new TableColumn<>("Data");
+        // CORREÇÃO: Coluna definida como LocalDate para evitar ClassCastException
+        TableColumn<Encontro, LocalDate> dataCol = new TableColumn<>("Data");
         dataCol.setCellValueFactory(new PropertyValueFactory<>("dataEncontro"));
         dataCol.setMinWidth(150);
         // Formata a data
-        dataCol.setCellFactory(column -> new TableCell<Encontro, String>() {
+        dataCol.setCellFactory(column -> new TableCell<Encontro, LocalDate>() {
             @Override
-            protected void updateItem(String item, boolean empty) {
+            protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    // Item é LocalDate, mas a factory retorna string. Convertemos localmente.
-                    // NOTA: Esta conversão requer o objeto Encontro a ser atualizado para retornar String formatada no getter,
-                    // ou requer uma CellValueFactory de tipo LocalDate. Mantendo a versão atual por consistência.
-                    setText(formatter.format(LocalDate.parse(item)));
+                    // Item é LocalDate, formatamos diretamente.
+                    setText(formatter.format(item));
                 }
             }
         });
@@ -87,24 +86,27 @@ public class PainelGerenciamentoEncontros extends VBox {
             {
                 btnEditar.setOnAction(event -> {
                     Encontro encontro = getTableView().getItems().get(getIndex());
+
                     // Permite editar APENAS se a data for FUTURA
                     if (encontro.getDataEncontro().isBefore(LocalDate.now())) {
                         new Alert(Alert.AlertType.WARNING, "Não é permitido editar encontros passados.").showAndWait();
                     } else {
-                        // TODO: Abrir janela de Edição de Encontro
-                        new Alert(Alert.AlertType.INFORMATION, "Editar encontro " + encontro.getDataEncontro() + ". (Em desenvolvimento)").showAndWait();
+                        // Implementação da Edição: Abre a janela modal PainelEdicaoEncontro
+                        PainelEdicaoEncontro painelEdicao = new PainelEdicaoEncontro(encontro, PainelGerenciamentoEncontros.this);
+                        painelEdicao.show();
                     }
                 });
 
                 btnExcluir.setOnAction(event -> {
                     Encontro encontro = getTableView().getItems().get(getIndex());
                     Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION,
-                            "Deseja realmente EXCLUIR/CANCELAR o encontro em " + encontro.getDataEncontro() + "?",
+                            "Deseja realmente EXCLUIR/CANCELAR o encontro em " + encontro.getDataEncontro().format(formatter) + "?",
                             ButtonType.YES, ButtonType.NO);
                     confirmation.showAndWait();
 
                     if (confirmation.getResult() == ButtonType.YES) {
                         try {
+                            // Funcionalidade 4: Exclusão Lógica/Física
                             encontroDAO.excluirLogicamente(encontro.getIdEncontro());
                             recarregarTabela();
                             new Alert(Alert.AlertType.INFORMATION, "Encontro processado. Verifique o status para exclusão lógica/física.").showAndWait();
@@ -130,10 +132,9 @@ public class PainelGerenciamentoEncontros extends VBox {
         this.getChildren().addAll(titulo, tabelaEncontros);
     }
 
-    private void recarregarTabela() {
-        // List agora está resolvido graças à nova importação
+    public void recarregarTabela() {
+        // Importação de List está correta
         List<Encontro> encontros = encontroDAO.listarTodos();
-        // O erro de ambiguidade deve ser resolvido ao resolver List.
         ObservableList<Encontro> data = FXCollections.observableArrayList(encontros);
         tabelaEncontros.setItems(data);
     }

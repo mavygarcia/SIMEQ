@@ -88,8 +88,8 @@ public class PainelCadastroEncontro extends VBox {
         grid.setPadding(new Insets(10));
 
         List<Servico> servicos = servicoDAO.listar();
-        // Usamos listarAniversariantes como um proxy temporário para listarTodos
-        List<Mae> maes = maeDAO.listarAniversariantesDoMes(LocalDate.now().getMonthValue());
+        // CORREÇÃO: Usa listarTodos() para obter a lista completa de mães para atribuição de serviço
+        List<Mae> maes = maeDAO.listarTodos();
 
         ObservableList<Mae> obsMaes = FXCollections.observableArrayList(maes);
 

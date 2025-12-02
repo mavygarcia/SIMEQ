@@ -77,21 +77,31 @@ public class EncontroDAO {
                 throw new RuntimeException("Erro ao excluir logicamente o Encontro.", e);
             }
         } else {
-            // Se o encontro é futuro, remove do BD
-            // A requisição pedia para remover o encontro futuro do BD
+            // Se o encontro é futuro, remove do BD (Exclusão Física)
             removerDoBanco(idEncontro);
         }
     }
 
     // Método auxiliar para exclusão física de encontros futuros (se a data ainda não tiver ocorrido)
     private void removerDoBanco(int idEncontro) {
-        String sql = "DELETE FROM encontro WHERE id_encontro = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, idEncontro);
-            stmt.execute();
+        try {
+            // CORREÇÃO CRÍTICA: Primeiramente, exclua os registros em ENCONTRO_SERVICO
+            // para evitar a exceção de Foreign Key ao tentar excluir o ENCONTRO.
+            String sqlDeleteServicos = "DELETE FROM encontro_servico WHERE id_encontro = ?";
+            try (PreparedStatement stmtServicos = connection.prepareStatement(sqlDeleteServicos)) {
+                stmtServicos.setInt(1, idEncontro);
+                stmtServicos.execute();
+            }
+
+            // Em seguida, exclua o registro principal na tabela ENCONTRO
+            String sqlDeleteEncontro = "DELETE FROM encontro WHERE id_encontro = ?";
+            try (PreparedStatement stmtEncontro = connection.prepareStatement(sqlDeleteEncontro)) {
+                stmtEncontro.setInt(1, idEncontro);
+                stmtEncontro.execute();
+            }
+
         } catch (SQLException e) {
-            // Se houver registros em encontro_servico, essa remoção falhará (Foreign Key)
-            throw new RuntimeException("Erro ao remover Encontro (Verifique se há serviços relacionados).", e);
+            throw new RuntimeException("Erro ao remover Encontro (Falha na exclusão dos registros relacionados).", e);
         }
     }
 

@@ -287,6 +287,7 @@ public class TelaPrincipalGUI extends Application {
         mesLabel.setTextFill(javafx.scene.paint.Color.DARKGREY);
 
         int mesAtual = LocalDate.now().getMonthValue();
+        // Funcionalidade 5: Lista de Aniversariantes do Mês
         List<Mae> listaMaes = maeDAO.listarAniversariantesDoMes(mesAtual);
         ObservableList<Mae> aniversariantes = FXCollections.observableArrayList(listaMaes);
 

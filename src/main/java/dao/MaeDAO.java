@@ -84,4 +84,26 @@ public class MaeDAO {
         }
         return null;
     }
+
+    // Método utilitário para listar todas as mães (Necessário para atribuições de serviço)
+    public List<Mae> listarTodos() {
+        String sql = "SELECT * FROM mae ORDER BY nome";
+        List<Mae> maes = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Mae mae = new Mae();
+                mae.setIdMae(rs.getInt("id_mae"));
+                mae.setNome(rs.getString("nome"));
+                mae.setTelefone(rs.getString("telefone"));
+                mae.setEndereco(rs.getString("endereco"));
+                mae.setDataAniversario(rs.getDate("data_aniversario").toLocalDate());
+                maes.add(mae);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar todas as Mães.", e);
+        }
+        return maes;
+    }
 }
