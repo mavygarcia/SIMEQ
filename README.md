@@ -17,7 +17,7 @@
 </p>
 
 ## ⚠️ Problema <a id="problema"></a>
-A **Youtan** de São José dos Campos, possui dificuldade na gestão dos PDIs de seus colaboradores por parte de sua equipe de RH, que utiliza relatórios avulsos.
+Foi percebida a falta de um sistema que ajudasse as mães a organizar os encontros e também a geração dos relatórios deles.
 
 ## 📌 Solução <a id="solucao"></a>
 A solução proposta foi o desenvolvimento de um sistema que permite a organização dos encontros, por meio do cadastro de mães partipantes, o gerenciamentos dos serviços e a emissão de relatórios sobre as atividades realizadas.
