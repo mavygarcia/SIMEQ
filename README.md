@@ -23,7 +23,9 @@ Foi percebida a falta de um sistema que ajudasse as mães a organizar os encontr
 A solução proposta foi o desenvolvimento de um sistema que permite a organização dos encontros, por meio do cadastro de mães partipantes, o gerenciamentos dos serviços e a emissão de relatórios sobre as atividades realizadas.
 
 ## Modelos UML <a id="modelos">
+![WhatsApp Image 2025-12-02 at 23 26 26](https://github.com/user-attachments/assets/7be93478-800d-4fb9-827f-bf38010add81)
+![modeloconceitual](https://github.com/user-attachments/assets/d6f40eb2-ab0b-4c5c-a481-55099f75d57d)
+<img width="967" height="730" alt="imagem 3" src="https://github.com/user-attachments/assets/86a98857-31c2-45dd-bfdf-623286979469" />
 
-![](modeloconceitual.jpeg) <br><br>
-![](WhatsApp%20Image%202025-12-02%20at%2019.02.34.jpeg) <br><br>
-![](imagem%203.png)
+
+
