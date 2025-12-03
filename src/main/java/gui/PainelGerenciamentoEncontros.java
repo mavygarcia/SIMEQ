@@ -62,6 +62,7 @@ public class PainelGerenciamentoEncontros extends VBox {
         TableColumn<Encontro, Boolean> statusCol = new TableColumn<>("Status");
         statusCol.setCellValueFactory(new PropertyValueFactory<>("realizado"));
         statusCol.setMinWidth(100);
+        // Lógica de exibição do status (Exclusão Lógica/Física)
         statusCol.setCellFactory(column -> new TableCell<Encontro, Boolean>() {
             @Override
             protected void updateItem(Boolean item, boolean empty) {
