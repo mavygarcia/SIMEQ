@@ -24,6 +24,6 @@ A solução proposta foi o desenvolvimento de um sistema que permite a organiza�
 
 ## Modelos UML <a id="modelos">
 
-!(modeloconceitual.jpeg) <br><br>
-!(WhatsApp%20Image%202025-12-02%20at%2019.02.34.jpeg) <br><br>
-!(imagem%203.png)
+![](modeloconceitual.jpeg) <br><br>
+![](WhatsApp%20Image%202025-12-02%20at%2019.02.34.jpeg) <br><br>
+![](imagem%203.png)
